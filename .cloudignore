@@ -1,0 +1,6 @@
+# Ignores files and directories that are not needed in the build
+.git
+.gitignore
+.env
+__pycache__
+*.pyc
