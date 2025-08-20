@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import json
+import os
 
 # Create a Flask web server instance
 app = Flask(__name__)
@@ -54,7 +55,6 @@ def book_appointment():
 
 # Run the application
 if __name__ == '__main__':
-    # This is for local development only.
-    # In a production environment (like Cloud Functions), the entry point will be 'book_appointment:app'
-    app.run(host='0.0.0.0', port=5000)
-
+    # Use the PORT environment variable provided by Cloud Run
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host='0.0.0.0', port=port)
