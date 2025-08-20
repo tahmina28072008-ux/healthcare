@@ -5,6 +5,7 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy the requirements file and install dependencies
+# This is a key step to ensure Gunicorn is available
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -14,6 +15,7 @@ COPY . .
 # Expose the port the application will run on
 EXPOSE 8080
 
-# Define the command to run the application
-# Cloud Run will set the PORT environment variable, so we use it here
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+# Define the command to run the application using Gunicorn
+# This is the correct way to run a production Flask app on Cloud Run.
+# The `$`PORT variable is automatically provided by the Cloud Run environment.
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "book-appointment-backend-python:app"]
